@@ -69,6 +69,11 @@ RegisterNUICallback('Spawn', function (data)
          Wait(0)
      end
      if CurrentData then
+          if exports['mx-multicharacter']:GetUseEssential() then
+               TriggerServerEvent('es:firstJoinProper')
+               TriggerEvent('es:allowedToSpawn')
+               TriggerEvent('esx:CharCreate', CurrentData)
+          end
           TriggerServerEvent('esx:onPlayerJoined', CurrentData)   
      end
 end)

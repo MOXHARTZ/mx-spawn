@@ -73,8 +73,9 @@ RegisterNUICallback('Spawn', function (data)
                TriggerServerEvent('es:firstJoinProper')
                TriggerEvent('es:allowedToSpawn')
                TriggerEvent('esx:CharCreate', CurrentData)
+          else
+               TriggerServerEvent('esx:onPlayerJoined', CurrentData)
           end
-          TriggerServerEvent('esx:onPlayerJoined', CurrentData)   
      end
 end)
 

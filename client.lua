@@ -21,6 +21,7 @@ AddEventHandler('mx-spawn:Open', function (data)
 end)
 
 RegisterNUICallback('Spawn', function (data)
+     SetEntityCoords(PlayerPedId(), vector3(424.99, -978.32, 30.71))
      SetNuiFocus(false, false)
      local timer = GetGameTimer()
      if data.spawnLoc == 'lastlocation' then
@@ -55,8 +56,13 @@ RegisterNUICallback('Spawn', function (data)
               break
           end
      end
-     FreezeEntityPosition(PlayerPedId(), false)
-     SetEntityVisible(PlayerPedId(), true)
+     SwitchInPlayer(PlayerPedId())  
+     while GetPlayerSwitchState() ~= 12 do
+         Wait(0)
+     end
+
+     Wait(1000)
+
      if CurrentData then
           TriggerServerEvent('mx-multicharacter:CreateCharacter', CurrentData)
           while not exports['mx-multicharacter']:GetCid() do
@@ -64,19 +70,17 @@ RegisterNUICallback('Spawn', function (data)
                Wait(100)
           end
      end
-     SwitchInPlayer(PlayerPedId())  
-     while GetPlayerSwitchState() ~= 12 do
-         Wait(0)
-     end
+     
      if CurrentData then
           if exports['mx-multicharacter']:GetUseEssential() then
                TriggerServerEvent('es:firstJoinProper')
                TriggerEvent('es:allowedToSpawn')
                TriggerEvent('esx:CharCreate', CurrentData)
-          else
-               TriggerServerEvent('esx:onPlayerJoined', CurrentData)
           end
+          TriggerServerEvent('esx:onPlayerJoined', CurrentData)   
      end
+     FreezeEntityPosition(PlayerPedId(), false)
+     SetEntityVisible(PlayerPedId(), true)
 end)
 
 AddEventHandler('mx-multicharacter:GetLastLoc', function (loc)
